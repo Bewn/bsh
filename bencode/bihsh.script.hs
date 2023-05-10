@@ -9,7 +9,9 @@
    --package shell-conduit
 -}
 
+{-
 {-# LANGUAGE OverloadedStrings, ExtendedDefaultRules #-}
+-}
 
 import qualified Data.HashTable.IO as Ht
 
@@ -38,14 +40,30 @@ main = T.writeFile "hello.sh" $ script $ do
    cmd "echo" "from" (WithVar username (<> "'s shell"))
 -}
 
-newtype BshFunctionName = BFuncName String
-newtype BshFunctionDef = BFuncDef String
+----------- type definitions
+newtype BshFunctionName = BshFunctionName String
+newtype BshFunctionDef = BshFunctionDef String
 
-data BshFunction = BFunction BshFunctionName BshFunctionDef
-data BshTable = HashTable BshFunctionName BshFunctionDef
 
--- defBshFunction :: BshFunction String String
+-- data BshFunction = BshFunction {fn :: BshFunctionName, fd:: BshFunctionDef}
+
+{-
+instance Bsh BshTable where
+   initBshTable (BshFunctionName fn) (BshFunctionDef fd) = BshTable fn fd
+-}
+
+-- initBshTable :: IO (HashTable BshFunctionName BshFunctionDef)
+
+-- defBshFunction :: IO (BshFunction String String)
+
 -- defBshFunction = "test" "test"
+
+
+---------- class definitions
+class Bsh bsh where
+   -- initBshTable :: () -> BshTable
+   -- addToBshTable :: (BshTable bt BshFunctionName fn, BshFunctionDef fd) -> BshTable
+   
 
 ---------- main function
 main :: IO ()
