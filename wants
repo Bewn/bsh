@@ -2,3 +2,4 @@ haskell list comprehensions
 everything is an environment with a function space
 functions are composable
 notation for function is dots . and functions in your shell environment start with . e.g. $.foo
+function space as dictionary
