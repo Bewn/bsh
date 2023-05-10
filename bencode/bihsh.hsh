@@ -38,7 +38,16 @@ main = T.writeFile "hello.sh" $ script $ do
    cmd "echo" "from" (WithVar username (<> "'s shell"))
 -}
 
----------- haskeline code
+newtype BshFunctionName = BFuncName String
+newtype BshFunctionDef = BFuncDef String
+
+data BshFunction = BFunction BshFunctionName BshFunctionDef
+data BshTable = HashTable BshFunctionName BshFunctionDef
+
+-- defBshFunction :: BshFunction String String
+-- defBshFunction = "test" "test"
+
+---------- main function
 main :: IO ()
 main = runInputT defaultSettings loop
    where
@@ -47,7 +56,7 @@ main = runInputT defaultSettings loop
            minput <- getInputLine "% "
            case minput of
                Nothing -> return ()
-               Just "quit" -> return ()
+               Just "q" -> return ()
                Just input -> do outputStrLn $ "echo: " ++ input
                                 loop
 
