@@ -8,6 +8,7 @@
 # A snapshot resolver dictates the compiler version and the set of packages
 # to be used for project dependencies. For example:
 #
+# resolver: lts-3.5
 # resolver: nightly-2015-09-21
 # resolver: ghc-7.10.2
 #
@@ -28,8 +29,8 @@ resolver:
 #   subdirs:
 #   - auto-update
 #   - wai
-packages: []
-
+packages:
+- .
 # Dependency packages to be pulled from upstream that are not in the resolver.
 # These entries can reference officially published versions as well as
 # forks / in-progress versions pinned to a git hash. For example:
@@ -50,15 +51,15 @@ packages: []
 # Control whether we use the GHC we find on the path
 # system-ghc: true
 #
-# Require a specific version of stack, using version ranges
+# Require a specific version of Stack, using version ranges
 # require-stack-version: -any # Default
-# require-stack-version: ">=2.7"
+# require-stack-version: ">=2.9"
 #
-# Override the architecture used by stack, especially useful on Windows
+# Override the architecture used by Stack, especially useful on Windows
 # arch: i386
 # arch: x86_64
 #
-# Extra directories used by stack for building
+# Extra directories used by Stack for building
 # extra-include-dirs: [/path/to/dir]
 # extra-lib-dirs: [/path/to/dir]
 #
