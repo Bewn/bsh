@@ -30,10 +30,6 @@ import Control.Concurrent
 -- import qualified Data.Text.Lazy.IO as T
 -- default (T.Text)
 
-type HashTable k v = Ht.CuckooHashTable k v
-
-
-
 {-
 main :: IO ()
 main = T.writeFile "hello.sh" $ script $ do
@@ -63,6 +59,14 @@ newtype BshFuncName  = BshFuncName String
 newtype BshFuncDef   = BshFuncDef String
 data    BshFunc      = BshFunc { fn :: BshFuncName, fd :: BshFuncDef }
 
+type BshTable fn fd = Ht.CuckooHashTable fn fd
+
+initBshTable :: IO (BshTable String String)
+initBshTable = do
+     bshtbl <- Ht.new
+     Ht.insert bshtbl "main" "return ()"
+     return bshtbl
+
 
 {-
 instance Bsh BshFunc where
@@ -74,13 +78,13 @@ instance Bsh BshTable where
 
 ---------- main function
 main :: IO ()
-main = runInputT defaultSettings loop where
-    loop    :: InputT IO ()
-    loop = do
-       minput <- getInputLine "bsh%λ"
-       case minput of
-          Nothing     -> return ()
-          Just "q"    -> return ()
-          Just input  ->  do outputStrLn $ "echo: " ++ input
-                             loop
+main =  runInputT defaultSettings loop where
+     loop       :: InputT IO ()
+     loop        = do
+          minput <- getInputLine "bsh%λ"
+          case  minput
+            of Nothing     -> return ()
+               Just "q"    -> return ()
+               Just input  ->  do outputStrLn $ "echo: " ++ input
+                                  loop
 
