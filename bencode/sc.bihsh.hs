@@ -38,34 +38,33 @@ main = T.writeFile "hello.sh" $ script $ do
 
 ----------- type definitions
 
--- data BshFunction = BshFunction {fn :: BshFunctionName, fd:: BshFunctionDef}
-
 {-
 instance Bsh BshTable where
    initBshTable (BshFunctionName fn) (BshFunctionDef fd) = BshTable fn fd
 -}
 
-
-
 ---------- class definitions
-class  Bsh bsh where
-    -- initBshTable :: () -> BshTable
-    -- initBshTable = initHashTable
+class Bsh where
+   initBshTable :: IO (BshTable String String)
+   initBshTable  =
+      do bshtbl <- Ht.new
+         Ht.insert bshtbl "main" "True"
+         return bshtbl
+
+{-}
+   addToBshTable :: IO ( BshTable BshFuncName BshFuncDef)
+   addToBshTable =
+      do
+         Ht.insert bshtbl BshFuncName BshFuncDef
+         return bshtbl
+         -}
+
    -- addToBshTable :: (BshTable bt BshFunctionName fn, BshFunctionDef fd) -> BshTable
 
-newtype BshFuncName  = BshFuncName String
-newtype BshFuncDef   = BshFuncDef String
-data    BshFunc      = BshFunc { n :: BshFuncName, d :: BshFuncDef }
-
-type BshTable n d = Ht.CuckooHashTable n d
-
-initBshTable :: IO (BshTable String String)
-initBshTable  = 
-   do
-     bshtbl <- Ht.new
-     Ht.insert bshtbl "main" "return ()"
-     return bshtbl
-
+newtype BshFuncName  = BshFuncName { bshFnN :: String }
+newtype BshFuncDef   = BshFuncDef { bshFnDefn :: String }
+data    BshFunc      = BshFunc { n :: BshFuncName , d :: BshFuncDef }
+type    BshTable n d = Ht.CuckooHashTable n d
 
 {-
 instance Bsh BshFunc where
@@ -89,6 +88,7 @@ main =  runInputT defaultSettings loop where
                   case inln 
                     of Nothing   -> return ()
                        Just inp  -> do outputStrLn $ "" ++ inp
+                                       loop
                Just input   ->  do outputStrLn $ "echo: " ++ input
                                    loop
 
