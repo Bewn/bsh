@@ -9,9 +9,7 @@
    --package shell-conduit
 -}
 
-{-
 {-# LANGUAGE OverloadedStrings, ExtendedDefaultRules #-}
--}
 
 import qualified Data.HashTable.IO as Ht
 
@@ -57,12 +55,13 @@ class  Bsh bsh where
 
 newtype BshFuncName  = BshFuncName String
 newtype BshFuncDef   = BshFuncDef String
-data    BshFunc      = BshFunc { fn :: BshFuncName, fd :: BshFuncDef }
+data    BshFunc      = BshFunc { n :: BshFuncName, d :: BshFuncDef }
 
-type BshTable fn fd = Ht.CuckooHashTable fn fd
+type BshTable n d = Ht.CuckooHashTable n d
 
 initBshTable :: IO (BshTable String String)
-initBshTable = do
+initBshTable  = 
+   do
      bshtbl <- Ht.new
      Ht.insert bshtbl "main" "return ()"
      return bshtbl
@@ -79,12 +78,17 @@ instance Bsh BshTable where
 ---------- main function
 main :: IO ()
 main =  runInputT defaultSettings loop where
-     loop       :: InputT IO ()
-     loop        = do
-          minput <- getInputLine "bsh%λ"
+     loop        :: InputT IO ()
+     loop         = 
+      do  minput <- getInputLine "bsh%λ"
           case  minput
             of Nothing     -> return ()
                Just "q"    -> return ()
-               Just input  ->  do outputStrLn $ "echo: " ++ input
-                                  loop
+               Just "def"  -> do 
+                  inln <- getInputLine "name the function\n"
+                  case inln 
+                    of Nothing   -> return ()
+                       Just inp  -> do outputStrLn $ "" ++ inp
+               Just input   ->  do outputStrLn $ "echo: " ++ input
+                                   loop
 
