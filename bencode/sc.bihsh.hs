@@ -30,7 +30,9 @@ import Control.Concurrent
 -- import qualified Data.Text.Lazy.IO as T
 -- default (T.Text)
 
-type HashTable k v = Ht.BasicHashTable k v
+type HashTable k v = Ht.CuckooHashTable k v
+
+
 
 {-
 main :: IO ()
@@ -41,9 +43,6 @@ main = T.writeFile "hello.sh" $ script $ do
 -}
 
 ----------- type definitions
-newtype BshFunctionName = BshFunctionName String
-newtype BshFunctionDef = BshFunctionDef String
-
 
 -- data BshFunction = BshFunction {fn :: BshFunctionName, fd:: BshFunctionDef}
 
@@ -52,29 +51,36 @@ instance Bsh BshTable where
    initBshTable (BshFunctionName fn) (BshFunctionDef fd) = BshTable fn fd
 -}
 
--- initBshTable :: IO (HashTable BshFunctionName BshFunctionDef)
-
--- defBshFunction :: IO (BshFunction String String)
-
--- defBshFunction = "test" "test"
 
 
 ---------- class definitions
-class Bsh bsh where
-   -- initBshTable :: () -> BshTable
+class  Bsh bsh where
+    -- initBshTable :: () -> BshTable
+    -- initBshTable = initHashTable
    -- addToBshTable :: (BshTable bt BshFunctionName fn, BshFunctionDef fd) -> BshTable
-   
+
+newtype BshFuncName  = BshFuncName String
+newtype BshFuncDef   = BshFuncDef String
+data    BshFunc      = BshFunc { fn :: BshFuncName, fd :: BshFuncDef }
+
+
+{-
+instance Bsh BshFunc where
+    bsh bshf = do bshf 
+
+instance Bsh BshTable where
+    bsh bshtbl = initBshTable
+-}
 
 ---------- main function
 main :: IO ()
-main = runInputT defaultSettings loop
-   where
-       loop :: InputT IO ()
-       loop = do
-           minput <- getInputLine "% "
-           case minput of
-               Nothing -> return ()
-               Just "q" -> return ()
-               Just input -> do outputStrLn $ "echo: " ++ input
-                                loop
+main = runInputT defaultSettings loop where
+    loop    :: InputT IO ()
+    loop = do
+       minput <- getInputLine "bsh%λ"
+       case minput of
+          Nothing     -> return ()
+          Just "q"    -> return ()
+          Just input  ->  do outputStrLn $ "echo: " ++ input
+                             loop
 
