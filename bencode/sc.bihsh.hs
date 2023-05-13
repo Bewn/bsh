@@ -1,4 +1,3 @@
-#!/usr/bin/env stack
 {- stack script --resolver lts-20.20
    --package process
    --package hashtables
@@ -74,22 +73,23 @@ instance Bsh BshTable where
     bsh bshtbl = initBshTable
 -}
 
----------- main function
+--   |---------- main function------------------------------------------------|
 main :: IO ()
-main =  runInputT defaultSettings loop where
-     loop        :: InputT IO ()
-     loop         = 
-      do  minput <- getInputLine "bsh%λ"
-          case  minput
-            of Nothing     -> return ()
-               Just "q"    -> return ()
-            --   Just "show" -> show
-               Just "def"  -> do 
-                  inln <- getInputLine "name the function\n"
-                  case inln 
-                    of Nothing   -> return ()
-                       Just inp  -> do outputStrLn inp
-                                       loop
-               Just input   ->  do outputStrLn $ "echo: " ++ input
-                                   loop
+main =  runInputT defaultSettings loop 
+  where ------ v-------- v-----------v---
+     loop :: InputT     IO          ()
+     loop = do   
+           minput <- getInputLine "bsh%λ"
+           case  minput
+             of Nothing     -> return ()
+                Just "q"    -> return ()
+             --   Just "show" -> show
+                Just "def"  -> do -- v --- 
+                      inln <- getInputLine "name the function\n"
+                      case inln of 
+                           Nothing   -> return ()
+                           Just inp  -> do outputStrLn inp
+                                           loop
+                        --   Just input   ->  do outputStrLn $ "echo: " ++ input
+                        --                       loop
 
