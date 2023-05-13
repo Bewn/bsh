@@ -83,11 +83,12 @@ main =  runInputT defaultSettings loop where
           case  minput
             of Nothing     -> return ()
                Just "q"    -> return ()
+            --   Just "show" -> show
                Just "def"  -> do 
                   inln <- getInputLine "name the function\n"
                   case inln 
                     of Nothing   -> return ()
-                       Just inp  -> do outputStrLn $ "" ++ inp
+                       Just inp  -> do outputStrLn inp
                                        loop
                Just input   ->  do outputStrLn $ "echo: " ++ input
                                    loop
