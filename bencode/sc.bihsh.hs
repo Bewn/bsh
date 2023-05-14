@@ -13,27 +13,12 @@
 import qualified Data.HashTable.IO as Ht
 
 import System.Console.Haskeline
-import System.Console.Haskeline.IO
 import Control.Concurrent
 
 -- import HsShellScript
 
 -- this is going to be a haskell based domain specific language for a functional shell
 -- it will be called bsh because that's like bash and the aim is to replace bash
-
--- import Control.Monad.Shell
--- import Data.Monoid
--- import qualified Data.Text.Lazy as T
--- import qualified Data.Text.Lazy.IO as T
--- default (T.Text)
-
-{-
-main :: IO ()
-main = T.writeFile "hello.sh" $ script $ do
-   cmd "echo" "hello, world"
-   username <- newVarFrom (Output (cmd "whoami")) ()
-   cmd "echo" "from" (WithVar username (<> "'s shell"))
--}
 
 ----------- type definitions
 
@@ -47,11 +32,11 @@ class Bsh where
    initBshTable :: IO (BshTable String String)
    initBshTable  =
       do bshtbl <- Ht.new
-         Ht.insert bshtbl "main" "True"
+         Ht.insert bshtbl "name" "def"
          return bshtbl
 
 {-}
-   addToBshTable :: IO ( BshTable BshFuncName BshFuncDef)
+   addToBshTable :: IO (BshTable BshFuncName BshFuncDef) -> BshTable
    addToBshTable =
       do
          Ht.insert bshtbl BshFuncName BshFuncDef
@@ -76,25 +61,19 @@ instance Bsh BshTable where
 testFunc :: IO ()
 testFunc = putStrLn "test bish"
 
-
 ----- |---------- main function------------------------------------------------|
-main :: IO ()
-main =  runInputT defaultSettings loop 
-  where 
-     loop :: InputT     IO            ()
-     loop = do   
-           minput <- getInputLine "bsh%λ"
-           case  minput
-             of Nothing     -> return ()
-                Just "q"    -> return ()
-             --   Just "show" -> show
-                Just "def"  -> do -- v --- 
-                      inln <- getInputLine "name the function\n"
-                      case inln of 
-                           Nothing   -> return ()
-                           Just inp  -> 
-                                         do
-                                           loop
-                        --   Just input   ->  do outputStrLn $ "echo: " ++ input
-                        --                       loop
 
+
+main :: IO ()
+main = runInputT defaultSettings loop
+    where
+        loop :: InputT IO ()
+        loop = do
+            minput <- getInputLine "% "
+            case minput of
+                 Nothing -> return ()
+                 Just "quit" -> return ()
+                 -- Just "init" -> do initBshTable
+                 Just input    -> do outputStrLn $ "Input was: " ++ input
+                                     loop
+          
