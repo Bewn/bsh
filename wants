@@ -6,3 +6,4 @@ function space as dictionary
 bsh should be automatic shell while bish should be interactive
 compiled language B, like C
 webvm
+provides bsh for system/meta, bish for interactive posix shell, bihsh for interactive haskell-like shell

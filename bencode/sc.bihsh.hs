@@ -73,11 +73,15 @@ instance Bsh BshTable where
     bsh bshtbl = initBshTable
 -}
 
---   |---------- main function------------------------------------------------|
+testFunc :: IO ()
+testFunc = putStrLn "test bish"
+
+
+----- |---------- main function------------------------------------------------|
 main :: IO ()
 main =  runInputT defaultSettings loop 
-  where ------ v-------- v-----------v---
-     loop :: InputT     IO          ()
+  where 
+     loop :: InputT     IO            ()
      loop = do   
            minput <- getInputLine "bsh%λ"
            case  minput
