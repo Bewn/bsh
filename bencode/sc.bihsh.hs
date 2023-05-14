@@ -72,6 +72,7 @@ main = runInputT defaultSettings loop
             minput <- getInputLine "% "
             case minput of
                  Nothing -> return ()
+                 Just "q" -> return ()
                  Just "quit" -> return ()
                  -- Just "init" -> do initBshTable
                  Just input    -> do outputStrLn $ "Input was: " ++ input
