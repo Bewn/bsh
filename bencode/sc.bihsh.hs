@@ -9,11 +9,13 @@
 -}
 
 {-# LANGUAGE OverloadedStrings, ExtendedDefaultRules #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 
 import qualified Data.HashTable.IO as Ht
 
 import System.Console.Haskeline
-import Control.Concurrent
+    ( defaultSettings, getInputLine, outputStrLn, runInputT, InputT )
+import Control.Concurrent ()
 
 -- import HsShellScript
 
@@ -52,10 +54,10 @@ type    BshTable n d = Ht.CuckooHashTable n d
 
 {-
 instance Bsh BshFunc where
-    bsh bshf = do bshf 
+   bsh bshf = do bshf 
 
 instance Bsh BshTable where
-    bsh bshtbl = initBshTable
+   bsh bshtbl = initBshTable
 -}
 
 testFunc :: IO ()
@@ -66,9 +68,9 @@ testFunc = putStrLn "test bish"
 
 main :: IO ()
 main = runInputT defaultSettings loop
-    where
-        loop :: InputT IO ()
-        loop = do
+   where
+    loop :: InputT IO ()
+    loop = do
             minput <- getInputLine "% "
             case minput of
                  Nothing -> return ()
@@ -77,4 +79,3 @@ main = runInputT defaultSettings loop
                  -- Just "init" -> do initBshTable
                  Just input    -> do outputStrLn $ "Input was: " ++ input
                                      loop
-          
