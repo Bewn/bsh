@@ -64,8 +64,6 @@ testFunc :: IO ()
 testFunc = putStrLn "test bish"
 
 ----- |---------- main function------------------------------------------------|
-
-
 main :: IO ()
 main = runInputT defaultSettings loop
    where
@@ -77,5 +75,5 @@ main = runInputT defaultSettings loop
                   Just "q" -> return ()
                   Just "quit" -> return ()
                   -- Just "init" -> do initBshTable
-                  Just input    -> do outputStrLn $ "Input was: " ++ input
-                                      loop
+                  Just input    ->  do outputStrLn $ "Input was: " ++ input
+                                       loop
