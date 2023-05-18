@@ -1,4 +1,4 @@
-cabal-version:      3.4
+cabal-version:      3.8
 -- The cabal-version field refers to the version of the .cabal specification,
 -- and can be different from the cabal-install (the tool) version and the
 -- Cabal (the library) version you are using. As such, the Cabal (the library)
@@ -20,7 +20,7 @@ name:               bsh
 -- PVP summary:     +-+------- breaking API changes
 --                  | | +----- non-breaking API additions
 --                  | | | +--- code changes with no API change
-version:            0.1.0.0
+version:            0.1.0.1
 
 -- A short (one-line) description of the package.
 -- synopsis:
@@ -67,7 +67,10 @@ library
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.18.0.0
+    build-depends:    base ^>=4.18.0.0,
+                      haskeline,
+                      hashtables
+                      
 
     -- Directories containing source files.
     hs-source-dirs:   lib
@@ -91,6 +94,8 @@ executable bsh
     -- Other library packages from which modules are imported.
     build-depends:
         base ^>=4.18.0.0,
+        hashtables,
+        haskeline,
         bsh
 
     -- Directories containing source files.

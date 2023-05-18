@@ -11,7 +11,6 @@
 {-# LANGUAGE OverloadedStrings, ExtendedDefaultRules #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 
-import qualified Data.HashTable.IO as Ht
 
 import System.Console.Haskeline
    ( defaultSettings, getInputLine, outputStrLn, runInputT, InputT )
