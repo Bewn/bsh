@@ -1,6 +1,6 @@
 module Main where
 
-import qualified BshLib ()
+import qualified BshLib (initBshFnc)
 
 import System.Console.Haskeline
    ( defaultSettings, getInputLine, outputStrLn, runInputT, InputT )
@@ -12,12 +12,12 @@ main = runInputT defaultSettings loop
    where
       loop :: InputT IO ()
       loop = do
-            minput <- getInputLine "% "
+            minput <- getInputLine "bsh% "
             case minput of
                   Nothing -> return ()
                   Just "q" -> return ()
                   Just "quit" -> return ()
-                  -- Just "init" -> do initBshTable
+                  Just "init" -> return ()
                   Just input    ->  do outputStrLn $ "Input was: " ++ input
                                        loop
 

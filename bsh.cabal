@@ -20,7 +20,7 @@ name:               bsh
 -- PVP summary:     +-+------- breaking API changes
 --                  | | +----- non-breaking API additions
 --                  | | | +--- code changes with no API change
-version:            0.1.0.1
+version:            0.1.0.3
 
 -- A short (one-line) description of the package.
 -- synopsis:
@@ -38,7 +38,7 @@ license-file:       LICENSE
 author:             Ben Rosebery
 
 -- An email address to which users can send suggestions, bug reports, and patches.
-maintainer:         benrosebery@gmail.com
+maintainer:         ben@rosebery.org
 
 -- A copyright notice.
 -- copyright:
@@ -51,7 +51,7 @@ extra-doc-files:    CHANGELOG.md
 -- extra-source-files:
 
 common warnings
-    ghc-options: -Wall
+    ghc-options: -Wall -threaded -O2 -static
 
 library
     -- Import common warning flags.
