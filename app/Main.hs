@@ -1,15 +1,15 @@
 module Main where
 
-import qualified BshLib (initBshFnc)
+import BshLib (initBshFnc)
 
 import System.Console.Haskeline
-   ( defaultSettings, getInputLine, outputStrLn, runInputT, InputT )
+    ( defaultSettings, getInputLine, outputStrLn, runInputT, InputT )
 import Control.Concurrent ()
 
 
 main :: IO ()
 main = runInputT defaultSettings loop
-   where
+  where
       loop :: InputT IO ()
       loop = do
             minput <- getInputLine "bsh% "
@@ -18,6 +18,6 @@ main = runInputT defaultSettings loop
                   Just "q" -> return ()
                   Just "quit" -> return ()
                   Just "init" -> return ()
-                  Just input    ->  do outputStrLn $ "Input was: " ++ input
-                                       loop
+                  Just input    ->   do outputStrLn $ "Input was: " ++ input
+                                        loop
 
